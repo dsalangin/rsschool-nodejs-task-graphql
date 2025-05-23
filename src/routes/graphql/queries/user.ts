@@ -1,5 +1,5 @@
 import { GraphQLFloat, GraphQLList, GraphQLNonNull, GraphQLObjectType, GraphQLString } from "graphql";
-import { UUIDType } from "./uuid.js";
+import { UUIDType } from "../types/uuid.js";
 import { ProfileType } from "./profile.js";
 import { PostType } from "./post.js";
 import { getAuthorsByUser, getPostsByUser, getProfileByUser, getSubscribersByUser } from "../resolvers/user.js";

@@ -2,7 +2,7 @@ import { GraphQLList, GraphQLNonNull, GraphQLObjectType, GraphQLString } from 'g
 import { MemberTypeIdEnum, MemberTypeType } from './member-type.js';
 import { getMemberType, getMemberTypes } from '../resolvers/member-type.js';
 import { getProfile, getProfiles } from '../resolvers/profile.js';
-import { UUIDType } from './uuid.js';
+import { UUIDType } from '../types/uuid.js';
 import { ProfileType } from './profile.js';
 import { PostType } from './post.js';
 import { getPosts, getPost } from '../resolvers/post.js';
