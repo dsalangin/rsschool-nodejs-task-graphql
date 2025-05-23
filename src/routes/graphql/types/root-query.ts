@@ -4,17 +4,19 @@ import { getMemberType, getMemberTypes } from '../resolvers/member-type.js';
 import { getProfile, getProfiles } from '../resolvers/profile.js';
 import { UUIDType } from './uuid.js';
 import { ProfileType } from './profile.js';
-import { Post } from './post.js';
+import { PostType } from './post.js';
 import { getPosts, getPost } from '../resolvers/post.js';
+import { UserType } from './user.js';
+import { getUser, getUsers } from '../resolvers/user.js';
 
 export const RootQueryType = new GraphQLObjectType({
     name: 'RootQuery',
     fields: {
-        MemberTypes: {
+        memberTypes: {
             type: new GraphQLList(MemberTypeType),
             resolve: getMemberTypes
         },
-        MemberType: {
+        memberType: {
             type: MemberTypeType,
             args: {
                 id: {
@@ -23,11 +25,11 @@ export const RootQueryType = new GraphQLObjectType({
             },
             resolve: getMemberType,
         },
-        Profiles: {
+        profiles: {
             type: new GraphQLList(ProfileType),
             resolve: getProfiles,
         },
-        Profile: {
+        profile: {
             type: ProfileType,
             args: {
                 id: {
@@ -36,18 +38,32 @@ export const RootQueryType = new GraphQLObjectType({
             },
             resolve: getProfile,
         },
-        Posts: {
-            type: new GraphQLList(Post),
+        posts: {
+            type: new GraphQLList(PostType),
             resolve: getPosts,
         },
-        Post: {
-            type: Post,
+        post: {
+            type: PostType,
             args: {
                 id: {
                     type: new GraphQLNonNull(UUIDType)
                 }
             },
             resolve: getPost,
+        },
+        users: {
+            type: new GraphQLList(UserType),
+            resolve: getUsers,
+        },
+        user: {
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+            type: UserType,
+            args: {
+                id: {
+                    type: new GraphQLNonNull(UUIDType)
+                }
+            },
+            resolve: getUser,
         }
     }
 });
