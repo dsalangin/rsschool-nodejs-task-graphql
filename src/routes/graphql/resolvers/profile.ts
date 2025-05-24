@@ -16,4 +16,17 @@ export const createProfile = async (parent, args: { dto: { isMale: boolean; year
             isMale, yearOfBirth, memberTypeId, userId
         }
     })
-} 
+}
+
+export const changeProfile = async (parent, args: { id: string, dto: { isMale: boolean; yearOfBirth: number; memberTypeId: string; } }, { prisma }: { prisma: PrismaClient }) => {
+    const { isMale, yearOfBirth, memberTypeId } = args.dto;
+
+    return prisma.profile.update({
+        where: {
+            id: args.id
+        },
+        data: {
+            isMale, yearOfBirth, memberTypeId
+        }
+    })
+}
