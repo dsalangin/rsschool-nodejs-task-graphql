@@ -45,3 +45,13 @@ export const getAuthorsByUser = async (parent: User, args, { prisma }: { prisma:
         },
     })).map(subscribersOnAuthors => subscribersOnAuthors.subscriber);
 }
+
+export const createUser = async (parent, args: { dto: { name: string; balance: number; } }, { prisma }: { prisma: PrismaClient }) => {
+    const { name, balance } = args.dto;
+
+    return prisma.user.create({
+        data: {
+            name, balance
+        }
+    })
+}
