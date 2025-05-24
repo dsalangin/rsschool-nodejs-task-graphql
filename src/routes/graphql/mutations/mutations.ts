@@ -9,6 +9,7 @@ import { ChangeUserInputType, CreateUserInputType } from "./user.js";
 import { UserType } from "../queries/user.js";
 import { changeUser, createUser, deleteUser } from "../resolvers/user.js";
 import { UUIDType } from "../types/uuid.js";
+import { subscribeTo } from "../resolvers/subscription.js";
 
 
 
@@ -106,6 +107,18 @@ export const Mutations = new GraphQLObjectType({
                 }
             },
             resolve: deleteUser,
+        },
+        subscribeTo: {
+            type: new GraphQLNonNull(GraphQLString),
+            args: {
+                userId: {
+                    type: new GraphQLNonNull(UUIDType),
+                },
+                authorId: {
+                    type: new GraphQLNonNull(UUIDType),
+                },
+            },
+            resolve: subscribeTo,
         },
     }
 });
