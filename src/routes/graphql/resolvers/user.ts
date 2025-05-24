@@ -55,3 +55,16 @@ export const createUser = async (parent, args: { dto: { name: string; balance: n
         }
     })
 }
+
+export const changeUser = async (parent, args: { id: string, dto: { name: string; balance: number; } }, { prisma }: { prisma: PrismaClient }) => {
+    const { name, balance } = args.dto;
+
+    return prisma.user.update({
+        where: {
+            id: args.id
+        },
+        data: {
+            name, balance
+        }
+    })
+}

@@ -5,9 +5,9 @@ import { changeProfile, createProfile } from "../resolvers/profile.js";
 import { PostType } from "../queries/post.js";
 import { ChangePostInputType, CreatePostInputType } from "./post.js";
 import { changePost, createPost } from "../resolvers/post.js";
-import { CreateUserInputType } from "./user.js";
+import { ChangeUserInputType, CreateUserInputType } from "./user.js";
 import { UserType } from "../queries/user.js";
-import { createUser } from "../resolvers/user.js";
+import { changeUser, createUser } from "../resolvers/user.js";
 import { UUIDType } from "../types/uuid.js";
 
 
@@ -66,6 +66,19 @@ export const Mutations = new GraphQLObjectType({
                 }
             },
             resolve: changePost,
+        },
+        changeUser: {
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+            type: UserType,
+            args: {
+                id: {
+                    type: new GraphQLNonNull(UUIDType),
+                },
+                dto: {
+                    type: new GraphQLNonNull(ChangeUserInputType),
+                }
+            },
+            resolve: changeUser,
         },
     }
 });
