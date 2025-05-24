@@ -30,3 +30,16 @@ export const changeProfile = async (parent, args: { id: string, dto: { isMale: b
         }
     })
 }
+
+export const deleteProfile = async (parent, args: { id: string }, { prisma }: { prisma: PrismaClient }) => {
+    try {
+        await prisma.profile.delete({
+            where: {
+                id: args.id
+            }
+        })
+        return `Profile with ${args.id} id deleted`;
+    } catch (err) {
+        return err;
+    }
+}
