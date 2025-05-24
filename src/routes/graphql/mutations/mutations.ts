@@ -7,7 +7,7 @@ import { ChangePostInputType, CreatePostInputType } from "./post.js";
 import { changePost, createPost, deletePost } from "../resolvers/post.js";
 import { ChangeUserInputType, CreateUserInputType } from "./user.js";
 import { UserType } from "../queries/user.js";
-import { changeUser, createUser } from "../resolvers/user.js";
+import { changeUser, createUser, deleteUser } from "../resolvers/user.js";
 import { UUIDType } from "../types/uuid.js";
 
 
@@ -97,6 +97,15 @@ export const Mutations = new GraphQLObjectType({
                 }
             },
             resolve: deletePost,
+        },
+        deleteUser: {
+            type: new GraphQLNonNull(GraphQLString),
+            args: {
+                id: {
+                    type: new GraphQLNonNull(UUIDType),
+                }
+            },
+            resolve: deleteUser,
         },
     }
 });

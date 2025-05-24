@@ -68,3 +68,16 @@ export const changeUser = async (parent, args: { id: string, dto: { name: string
         }
     })
 }
+
+export const deleteUser = async (parent, args: { id: string }, { prisma }: { prisma: PrismaClient }) => {
+    try {
+        await prisma.user.delete({
+            where: {
+                id: args.id
+            }
+        })
+        return `User with ${args.id} id deleted`;
+    } catch (err) {
+        return err;
+    }
+}
