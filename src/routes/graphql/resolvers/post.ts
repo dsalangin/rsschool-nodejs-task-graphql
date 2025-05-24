@@ -17,3 +17,16 @@ export const createPost = async (parent, args: { dto: { title: string; content: 
         }
     })
 }
+
+export const changePost = async (parent, args: { id: string, dto: { title: string; content: string; } }, { prisma }: { prisma: PrismaClient }) => {
+    const { title, content } = args.dto;
+
+    return prisma.post.update({
+        where: {
+            id: args.id
+        },
+        data: {
+            title, content
+        }
+    })
+}
