@@ -30,3 +30,16 @@ export const changePost = async (parent, args: { id: string, dto: { title: strin
         }
     })
 }
+
+export const deletePost = async (parent, args: { id: string }, { prisma }: { prisma: PrismaClient }) => {
+    try {
+        await prisma.post.delete({
+            where: {
+                id: args.id
+            }
+        })
+        return `Post with ${args.id} id deleted`;
+    } catch (err) {
+        return err;
+    }
+}
