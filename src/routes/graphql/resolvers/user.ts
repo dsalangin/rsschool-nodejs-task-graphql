@@ -1,4 +1,11 @@
 import { PrismaClient, User } from "@prisma/client";
+import { UserLoader } from "../loaders/user.js";
+
+interface Context {
+    loaders: {
+        user: UserLoader;
+    };
+}
 
 export const getUsers = async (parent, args, { prisma }: { prisma: PrismaClient }) => {
     return await prisma.user.findMany();
@@ -8,42 +15,23 @@ export const getUser = async (parent, args: { id: string }, { prisma }: { prisma
     return await prisma.user.findUnique({ where: { id: args.id } });
 }
 
-export const getProfileByUser = async (parent: User, args, { prisma }: { prisma: PrismaClient }) => {
-    return await prisma.profile.findFirst({
-        where: {
-            userId: parent.id
-        }
-    });
+export const getProfileByUser = async (parent: User, args, { loaders }: Context) => {
+    return loaders.user.profileByUserId.load(parent.id)
 }
 
-export const getPostsByUser = async (parent: User, args, { prisma }: { prisma: PrismaClient }) => {
-    return await prisma.post.findMany({
-        where: {
-            authorId: parent.id
-        }
-    })
+export const getPostsByUser = async (parent: User, args, { loaders }: Context) => {
+    return loaders.user.postsByUserId.load(parent.id)
+
 }
 
-export const getSubscribersByUser = async (parent: User, args, { prisma }: { prisma: PrismaClient }) => {
-    return (await prisma.subscribersOnAuthors.findMany({
-        where: {
-            subscriberId: parent.id
-        },
-        select: {
-            author: true,
-        },
-    })).map(subscribersOnAuthors => subscribersOnAuthors.author);
+export const getSubscribersByUser = async (parent: User, args, { loaders }: Context) => {
+    return loaders.user.userSubscribedTo.load(parent.id)
+
 }
 
-export const getAuthorsByUser = async (parent: User, args, { prisma }: { prisma: PrismaClient }) => {
-    return (await prisma.subscribersOnAuthors.findMany({
-        where: {
-            authorId: parent.id
-        },
-        select: {
-            subscriber: true,
-        },
-    })).map(subscribersOnAuthors => subscribersOnAuthors.subscriber);
+export const getAuthorsByUser = async (parent: User, args, { loaders }: Context) => {
+    return loaders.user.subscribedToUser.load(parent.id)
+
 }
 
 export const createUser = async (parent, args: { dto: { name: string; balance: number; } }, { prisma }: { prisma: PrismaClient }) => {
